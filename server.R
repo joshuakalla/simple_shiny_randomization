@@ -1,4 +1,32 @@
+library("data.table")
+
 shinyServer(function(input, output) {
+  
+  randomization <- function(data, percent.1, percent.2, percent.3, percent.4) {
+    #Set seed based on today's date
+    set.seed(as.numeric(gsub("-", "", substr(Sys.time(), 1, 10))))
+    rand <- runif(nrow(data), min = 0.0001, max = 0.9999)
+    group.1 <- percent.1
+    group.2 <- percent.1 + percent.2
+    group.3 <- percent.1 + percent.2 + percent.3
+    group.4 <- percent.1 + percent.2 + percent.3 + percent.4
+    
+    #NOTE: group.4 should always equal 1
+    
+    treat <- rep(NA, length(data))
+    treat[rand %inrange% list(0, group.1)] <- 1
+    treat[rand %inrange% list(group.1, group.2)] <- 2
+    treat[rand %inrange% list(group.2, group.3)] <- 3
+    treat[rand %inrange% list(group.3, group.4)] <- 4
+    
+    treat
+    return(treat)
+  }
+  
+  data <- data.frame(runif(100))
+  data$treat <- randomization(data, 0.25, 0.25, 0.5, 0)
+  table(data$treat)
+  
   
   ### Argument names:
   ArgNames <- reactive({
@@ -71,18 +99,6 @@ shinyServer(function(input, output) {
     return(Dataset()[,input$vars,drop=FALSE])
   })
   
-  
-  ### Download dump:
-  
-  output$downloadDump <- downloadHandler(
-    filename = "Rdata.R",
-    content = function(con) {
-      
-      assign(input$name, Dataset()[,input$vars,drop=FALSE])
-      
-      dump(input$name, con)
-    }
-  )
   
   ### Download save:
   

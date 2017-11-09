@@ -16,8 +16,8 @@ shinyUI(pageWithSidebar(
     # Select filetype:
     selectInput("readFunction", "Function to read data:", c(
       # Base R:
-      "read.table",
       "read.csv",
+      "read.table",
       "read.csv2",
       "read.delim",
       "read.delim2",
@@ -48,24 +48,22 @@ shinyUI(pageWithSidebar(
     # Upload data:
     fileInput("file", "Upload data-file:"),
     
-    # Number of conditions
-    selectInput("numCondition", "Number of Experimental Groups:", c(2, 3, 4)),
-    
     #Percent in each condition
-    #2 conditions
-    sliderInput("percentCondition2.a", "Percent in Group One:", min = 0, max = 1, value = 0, step = 0.01),
-    sliderInput("percentCondition2.b", "Percent in Group Two:", min = 0, max = 1, value = 0, step = 0.01),
-    #3 conditions
-    sliderInput("percentCondition2.c", "Percent in Group Three:", min = 0, max = 1, value = 0, step = 0.01),
-    #4 conditions
-    sliderInput("percentCondition2.d", "Percent in Group Four:", min = 0, max = 1, value = 0, step = 0.01),
+    sliderInput("percentCondition1", "Percent in Group One:", min = 0, max = 1, value = 0, step = 0.01),
+    sliderInput("percentCondition2", "Percent in Group Two:", min = 0, max = 1, value = 0, step = 0.01),
+    sliderInput("percentCondition3", "Percent in Group Three:", min = 0, max = 1, value = 0, step = 0.01),
+    sliderInput("percentCondition4", "Percent in Group Four:", min = 0, max = 1, value = 0, step = 0.01),
+    
+    # Variable selection:
+    htmlOutput("varselect"),
     
     br(),
     
+    
+    
     textInput("name","Dataset name:","Data"),
     
-    downloadLink('downloadDump', 'Download source'),
-    downloadLink('downloadSave', 'Download binary')
+    downloadLink('downloadSave', 'Randomize and Download!')
     
   ),
   
