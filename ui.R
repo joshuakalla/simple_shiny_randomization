@@ -1,7 +1,7 @@
 shinyUI(pageWithSidebar(
   
   # Header:
-  headerPanel("R data reader"),
+  headerPanel("Randomization Tool"),
   
   # Input in sidepanel:
   sidebarPanel(
