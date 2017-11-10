@@ -39,31 +39,23 @@ shinyUI(pageWithSidebar(
       "readLines"
     )),
     
-    # Argument selecter:
-    htmlOutput("ArgSelect"),
-    
-    # Argument field:
-    htmlOutput("ArgText"),
+    #Percent in each condition
+    #Default to two conditions, 50% in each
+    helpText("NOTE: All percentages must add to 1"),
+    sliderInput("percentCondition1", "Percent in Group One:", min = 0, max = 1, value = 0.5, step = 0.01),
+    sliderInput("percentCondition2", "Percent in Group Two:", min = 0, max = 1, value = 0.5, step = 0.01),
+    sliderInput("percentCondition3", "Percent in Group Three:", min = 0, max = 1, value = 0, step = 0.01),
+    sliderInput("percentCondition4", "Percent in Group Four:", min = 0, max = 1, value = 0, step = 0.01),
     
     # Upload data:
     fileInput("file", "Upload data-file:"),
-    
-    #Percent in each condition
-    sliderInput("percentCondition1", "Percent in Group One:", min = 0, max = 1, value = 0, step = 0.01),
-    sliderInput("percentCondition2", "Percent in Group Two:", min = 0, max = 1, value = 0, step = 0.01),
-    sliderInput("percentCondition3", "Percent in Group Three:", min = 0, max = 1, value = 0, step = 0.01),
-    sliderInput("percentCondition4", "Percent in Group Four:", min = 0, max = 1, value = 0, step = 0.01),
     
     # Variable selection:
     htmlOutput("varselect"),
     
     br(),
     
-    
-    
-    textInput("name","Dataset name:","Data"),
-    
-    downloadLink('downloadSave', 'Randomize and Download!')
+    downloadLink('downloadData', 'Randomize and Download!')
     
   ),
   

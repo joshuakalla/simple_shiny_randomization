@@ -2,44 +2,33 @@ library("data.table")
 
 shinyServer(function(input, output) {
   
+  #Grab today's data
+  #Used to set randomization seed and to name file
+  today <- gsub("-", "", substr(Sys.time(), 1, 10))
+  
+  #Randomization function based on percent allocated to 4 possible treatment conditions
   randomization <- function(data, percent.1, percent.2, percent.3, percent.4) {
     #Set seed based on today's date
-    set.seed(as.numeric(gsub("-", "", substr(Sys.time(), 1, 10))))
+    set.seed(as.numeric(today))
     rand <- runif(nrow(data), min = 0.0001, max = 0.9999)
     group.1 <- percent.1
     group.2 <- percent.1 + percent.2
     group.3 <- percent.1 + percent.2 + percent.3
     group.4 <- percent.1 + percent.2 + percent.3 + percent.4
-    
-    #NOTE: group.4 should always equal 1
-    
+    #NOTE: group.4 should always equal 1, there is a test for this
     treat <- rep(NA, length(data))
-    treat[rand %inrange% list(0, group.1)] <- 1
-    treat[rand %inrange% list(group.1, group.2)] <- 2
-    treat[rand %inrange% list(group.2, group.3)] <- 3
-    treat[rand %inrange% list(group.3, group.4)] <- 4
-    
-    treat
+    treat[rand %inrange% list(0, group.1)] <- "Group 1"
+    treat[rand %inrange% list(group.1, group.2)] <- "Group 2"
+    treat[rand %inrange% list(group.2, group.3)] <- "Group 3"
+    treat[rand %inrange% list(group.3, group.4)] <- "Group 4"
     return(treat)
   }
-  
-  data <- data.frame(runif(100))
-  data$treat <- randomization(data, 0.25, 0.25, 0.5, 0)
-  table(data$treat)
-  
   
   ### Argument names:
   ArgNames <- reactive({
     Names <- names(formals(input$readFunction)[-1])
     Names <- Names[Names!="..."]
     return(Names)
-  })
-  
-  # Argument selector:
-  output$ArgSelect <- renderUI({
-    if (length(ArgNames())==0) return(NULL)
-    
-    selectInput("arg","Argument:",ArgNames())
   })
   
   ## Arg text field:
@@ -49,15 +38,7 @@ shinyServer(function(input, output) {
     if (is.null(input$arg)) return(NULL)
     
     Defaults <- formals(input$readFunction)
-    
-    if (is.null(input[[fun__arg]]))
-    {
-      textInput(fun__arg, label = "Enter value:", value = deparse(Defaults[[input$arg]])) 
-    } else {
-      textInput(fun__arg, label = "Enter value:", value = input[[fun__arg]]) 
-    }
   })
-  
   
   ### Data import:
   Dataset <- reactive({
@@ -78,37 +59,42 @@ shinyServer(function(input, output) {
     argList <- argList[names(argList) %in% ArgNames()]
     
     Dataset <- as.data.frame(do.call(input$readFunction,c(list(input$file$datapath),argList)))
+    
+    #Conduct randomization
+    Dataset$treat <- randomization(Dataset, input$percentCondition1, input$percentCondition2,
+                             input$percentCondition3, input$percentCondition4)
+    
     return(Dataset)
   })
   
-  # Select variables:
+  # Select variables to download:
   output$varselect <- renderUI({
     
     if (identical(Dataset(), '') || identical(Dataset(),data.frame())) return(NULL)
     
     # Variable selection:    
-    selectInput("vars", "Variables to use:",
+    selectInput("vars", "Variables to download:",
                 names(Dataset()), names(Dataset()), multiple =TRUE)            
   })
   
   # Show table:
   output$table <- renderTable({
     
-    if (is.null(input$vars) || length(input$vars)==0) return(NULL)
-    
-    return(Dataset()[,input$vars,drop=FALSE])
+    if (is.null(input$vars) || length(input$vars)==0) {
+      return(NULL)
+    } else if (input$percentCondition1 + input$percentCondition2 + input$percentCondition3 + input$percentCondition4 != 1) {
+      return("WARNING: Percentages do not sum to 1. Please reload and try again")
+    } else {return(Dataset()[,input$vars,drop=FALSE])}
   })
-  
   
   ### Download save:
   
-  output$downloadSave <- downloadHandler(
-    filename = "Rdata.RData",
-    content = function(con) {
-      
-      assign(input$name, Dataset()[,input$vars,drop=FALSE])
-      
-      save(list=input$name, file=con)
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste(gsub(".csv", "", input$file), "_", today, "_randomized.csv", sep = "")
+    },
+    content = function(file) {
+      write.csv(Dataset(), file, row.names = FALSE)
     }
   )
   
