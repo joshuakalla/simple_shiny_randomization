@@ -1,11 +1,11 @@
 # Shiny App to Randomize a List to Experimental Conditions
-This [Shiny app](https://josh-kalla.shinyapps.io/simple_shiny_randomization/) takes an uploaded spreadsheet and randomizes to up to four experimental conditions based on percentages specified by the user. Visit the app at [https://josh-kalla.shinyapps.io/simple_shiny_randomization/](https://josh-kalla.shinyapps.io/simple_shiny_randomization/)
+This [Shiny app](https://josh-kalla.shinyapps.io/simple_shiny_randomization/) takes an uploaded spreadsheet and randomizes to up to four experimental conditions using either simple or complete random assignment, as specified by the user. Visit the app at [https://josh-kalla.shinyapps.io/simple_shiny_randomization/](https://josh-kalla.shinyapps.io/simple_shiny_randomization/)
 
 # Examples
 
 ## Example 1: Simple Random Assignment
 
-Simple random assignment assigns all subjects to an experimental condition with an equal probability by flipping a (weighted) coin for each subject. For example, you might want subjects to be randomly assigned to Group 1 with probablility 0.5, Group 2 with probability 0.4, and Group 3 with probability 0.1. Note that under simple random assignment, the number of subjects assigned to each group is a random number. This means that depending on the random assignment, a different number of subjects might be assigned to each group.
+Simple random assignment assigns all subjects to an experimental condition with an equal probability by flipping a (weighted) coin for each subject. For example, you might want subjects to be randomly assigned to Group 1 with probability 0.5, Group 2 with probability 0.4, and Group 3 with probability 0.1. Note that under simple random assignment, the number of subjects assigned to each group is a random number. This means that depending on the random assignment, a different number of subjects might be assigned to each group.
 
 To use simple random assignment, you would make sure the type of randomization is set to simple. For this example, you would set the group percentages to:
 
@@ -14,7 +14,7 @@ To use simple random assignment, you would make sure the type of randomization i
 - Probability of Group 3 = 0.1
 - Probability of Group 4 = 0
 
-You would then upload your spreadsheet, ensure the output reads "GOOD TO DOWNLOAD", and then click "Randomize and Download!". This will downlaod a spreadsheet with a treatment vector according to your specified probabilities. Note that the numerical suffix of the saved file was the seed used in this randomization. The seed is set to the date and hour. Saving this seed allows you to recreate the randomization, if necessary.
+You would then upload your spreadsheet, ensure the output reads "GOOD TO DOWNLOAD", and then click "Randomize and Download!". This will download a spreadsheet with a treatment vector according to your specified probabilities. Note that the numerical suffix of the saved file was the seed used in this randomization. The seed is set to the date and hour. Saving this seed allows you to recreate the randomization, if necessary.
 
 
 ## Example 2: Complete Random Assignment
