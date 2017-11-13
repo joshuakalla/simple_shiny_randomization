@@ -149,13 +149,13 @@ shinyServer(function(input, output) {
   output$text <- renderUI({
     
     if (is.null(input$vars) || length(input$vars)==0) {
-        HTML("NEED TO UPLOAD DATA. </br>For additional documentation, see <a href=\"https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md\" target=\"_blank\">https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md.")
+        HTML("NEED TO UPLOAD DATA. </br>For additional documentation or to file any issues, see <a href=\"https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md\" target=\"_blank\">https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md.")
     } else if (input$type.rand=="Simple" & input$percentCondition1 + input$percentCondition2 + input$percentCondition3 + input$percentCondition4 != 1) {
-        HTML("WARNING: Percentages do not sum to 1. Please reload and try again. </br>For additional documentation, see <a href=\"https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md\" target=\"_blank\">https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md.")
+        HTML("WARNING: Percentages do not sum to 1. Please reload and try again. </br>For additional documentation or to file any issues, see <a href=\"https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md\" target=\"_blank\">https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md.")
     } else if (input$type.rand=="Complete") {
-        HTML("Make sure the number in each condition equals the number of observations in data. When the 'Error:' disappears and you see 'Variables to download,' you can select 'Randomize and Download!'</br>For additional documentation, see <a href=\"https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md\" target=\"_blank\">https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md.")
+        HTML("Make sure the number in each condition equals the number of observations in data. When the 'Error:' disappears and you see 'Variables to download,' you can select 'Randomize and Download!'</br>For additional documentation or to file any issues, see <a href=\"https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md\" target=\"_blank\">https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md.")
     } else 
-      HTML("GOOD TO DOWNLOAD! </br>For additional documentation, see <a href=\"https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md\" target=\"_blank\">https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md.")
+      HTML("GOOD TO DOWNLOAD! </br>For additional documentation or to file any issues, see <a href=\"https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md\" target=\"_blank\">https://github.com/joshuakalla/simple_shiny_randomization/blob/master/README.md.")
   })
   
   ### Download save:
