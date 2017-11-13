@@ -3,7 +3,7 @@ This [Shiny app](https://josh-kalla.shinyapps.io/simple_shiny_randomization/) ta
 
 # Examples
 
-##Example 1: Simple Random Assignment
+## Example 1: Simple Random Assignment
 
 Simple random assignment assigns all subjects to an experimental condition with an equal probability by flipping a (weighted) coin for each subject. For example, you might want subjects to be randomly assigned to Group 1 with probablility 0.5, Group 2 with probability 0.4, and Group 3 with probability 0.1. Note that under simple random assignment, the number of subjects assigned to each group is a random number. This means that depending on the random assignment, a different number of subjects might be assigned to each group.
 
